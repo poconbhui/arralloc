@@ -31,8 +31,8 @@
  * The routine arralloc is simply a wrapper for varralloc.
  */
 
-void** arralloc(size_t pointer_size, int num_dims, ...);
-void** varralloc(size_t sizeof_data, int num_dims, va_list dims_vl);
+void* arralloc(size_t pointer_size, int num_dims, ...);
+void* varralloc(size_t sizeof_data, int num_dims, va_list dims_vl);
 
 
 #endif  // ARRALLOC_H_

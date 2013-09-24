@@ -24,7 +24,7 @@ static size_t get_alloc_size(size_t sizeof_data, int num_dims, int* dims);
  * That is, it does what we expect.
  */
 static void set_pointers(
-    size_t sizeof_data, void** arr, int num_dims, int* dims
+    size_t sizeof_data, void* arr, int num_dims, int* dims
 );
 
 
@@ -42,9 +42,9 @@ static size_t get_align_size(size_t sizeof_data);
 static void* get_aligned_pointer(void* data, size_t sizeof_data);
 
 
-void** arralloc(size_t sizeof_data, int num_dims, ...) {
+void* arralloc(size_t sizeof_data, int num_dims, ...) {
     va_list vl;
-    void **arr;
+    void *arr;
 
     va_start(vl, num_dims);
     arr = varralloc(sizeof_data, num_dims, vl);
@@ -54,19 +54,32 @@ void** arralloc(size_t sizeof_data, int num_dims, ...) {
 }
 
 
-void** varralloc(size_t sizeof_data, int num_dims, va_list dims_vl) {
+void* varralloc(size_t sizeof_data, int num_dims, va_list dims_vl) {
 
     /* The requested dimensions */
-    int dims[num_dims];
+    int* dims;
 
     /* The allocation size */
     int alloc_size;
 
     /* The allocated array */
-    void** arr;
+    void* arr;
 
     /* Iterators */
     int i;
+
+
+    /*
+     * Check that requested data size is a multiple of a (void*).
+     * The code only works for word objects.
+     */
+    if(sizeof_data % sizeof(void*) != 0) {
+        return NULL;
+    }
+
+    if(NULL == (dims = (int*) malloc(sizeof(int)*num_dims))) {
+        return NULL;
+    }
 
 
     /* Set dims to the input dims */
@@ -80,10 +93,15 @@ void** varralloc(size_t sizeof_data, int num_dims, va_list dims_vl) {
 
 
     /* Allocate the array */
-    arr = (void**) malloc(alloc_size);
+    if(NULL == (arr = (void*) malloc(alloc_size))) {
+        return NULL;
+    }
 
 
     set_pointers(sizeof_data, arr, num_dims, dims);
+
+
+    free(dims);
 
 
     /* Return the array */
@@ -170,7 +188,7 @@ size_t get_alloc_size(size_t sizeof_data, int num_dims, int* dims) {
 }
 
 
-void set_pointers(size_t sizeof_data, void** arr, int num_dims, int* dims) {
+void set_pointers(size_t sizeof_data, void* arr, int num_dims, int* dims) {
     int offset=1;
     void*** p = (void***) arr;
 
@@ -218,7 +236,7 @@ void set_pointers(size_t sizeof_data, void** arr, int num_dims, int* dims) {
 
 
     /* Initialize p[0] for zeroth iteration. */
-    p[0] = arr;
+    p[0] = (void **) p;
 
     for(d=0; d<num_dims-2; ++d) {
         offset *= dims[d];
