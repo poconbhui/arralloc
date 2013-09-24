@@ -42,31 +42,6 @@ static size_t get_align_size(size_t sizeof_data);
 static void* get_aligned_pointer(void* data, size_t sizeof_data);
 
 
-static size_t get_align_size(size_t sizeof_data) {
-   size_t align_size;
-
-   if( sizeof_data > MIN_ALIGN ) {
-   	align_size = sizeof_data;
-   }
-   else {
-   	align_size = MIN_ALIGN;
-   }
-   while( (align_size % sizeof_data) || (align_size % MIN_ALIGN) ) {
-   	align_size++;
-   }
-
-   return align_size;
-}
-
-
-static void* get_aligned_pointer(void* data, size_t sizeof_data) {
-    int align_size = get_align_size(sizeof_data);
-
-    return (void*)(
-        ( ((long)(data) + (align_size) - 1)/(align_size) )*(align_size)
-    );
-}
-
 
 void** arralloc(size_t sizeof_data, int num_dims, ...) {
     va_list vl;
@@ -115,6 +90,31 @@ void** varralloc(size_t sizeof_data, int num_dims, va_list dims_vl) {
     return arr;
 }
 
+
+size_t get_align_size(size_t sizeof_data) {
+   size_t align_size;
+
+   if( sizeof_data > MIN_ALIGN ) {
+   	align_size = sizeof_data;
+   }
+   else {
+   	align_size = MIN_ALIGN;
+   }
+   while( (align_size % sizeof_data) || (align_size % MIN_ALIGN) ) {
+   	align_size++;
+   }
+
+   return align_size;
+}
+
+
+void* get_aligned_pointer(void* data, size_t sizeof_data) {
+    int align_size = get_align_size(sizeof_data);
+
+    return (void*)(
+        ( ((long)(data) + (align_size) - 1)/(align_size) )*(align_size)
+    );
+}
 
 
 size_t get_alloc_size(size_t sizeof_data, int num_dims, int* dims) {
