@@ -28,6 +28,7 @@
  *
  * The routine varralloc is also provided, which expects
  * a va_list containing num_dims of ints representing the dimensions.
+ * The routine arralloc is simply a wrapper for varralloc.
  */
 
 void** arralloc(size_t pointer_size, int num_dims, ...);
