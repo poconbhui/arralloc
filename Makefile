@@ -11,3 +11,8 @@ $(PROGRAM): $(SOURCES)
 .PHONY: check
 check: $(PROGRAM)
 	./$(PROGRAM)
+
+.PHONY: clean
+clean:
+	@echo rm $(PROGRAM)
+	@test -f $(PROGRAM) && rm $(PROGRAM); true
