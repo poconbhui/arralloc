@@ -242,7 +242,6 @@ void set_pointers(size_t sizeof_data, void* arr, int num_dims, int* dims) {
         for(i=1; i<offset; ++i) {
             /* arr[0]...[i] = &arr[0]...[i*dims[n+1]] */
             p[i] = &p[0][i*dims[d+1]];
-
         }
     }
 
