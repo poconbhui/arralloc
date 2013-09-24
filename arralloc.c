@@ -55,17 +55,10 @@ void* arralloc(size_t sizeof_data, int num_dims, ...) {
 
 
 void* varralloc(size_t sizeof_data, int num_dims, va_list dims_vl) {
-
-    /* The requested dimensions */
     int* dims;
-
-    /* The allocation size */
     int alloc_size;
-
-    /* The allocated array */
     void* arr;
 
-    /* Iterators */
     int i;
 
 
@@ -139,7 +132,6 @@ size_t get_alloc_size(size_t sizeof_data, int num_dims, int* dims) {
     size_t pointer_array_size;
     size_t data_array_size;
 
-    /* Iterator */
     int i;
 
 
@@ -192,7 +184,6 @@ void set_pointers(size_t sizeof_data, void* arr, int num_dims, int* dims) {
     int offset=1;
     void*** p = (void***) arr;
 
-    /* Iterators */
     int d, i;
 
 
