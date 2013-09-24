@@ -28,8 +28,8 @@ Example Usage:
     for(i=0; i<6; i++)
     for(j=0; j<7; j++)
     for(k=0; k<8; k++) {
-        /* Will print (i*7*8 + i*8 + j) */
-        printf("%d\n", flat[i*7*8 + i*8 + j]);
+        /* Will print (i*7*8 + j*8 + k) */
+        printf("%d\n", flat[i*7*8 + j*8 + k]);
     }
 
     /* Free the entire array plus pointer arrays */
