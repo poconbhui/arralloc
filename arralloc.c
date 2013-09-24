@@ -42,7 +42,6 @@ static size_t get_align_size(size_t sizeof_data);
 static void* get_aligned_pointer(void* data, size_t sizeof_data);
 
 
-
 void** arralloc(size_t sizeof_data, int num_dims, ...) {
     va_list vl;
     void **arr;
@@ -53,6 +52,7 @@ void** arralloc(size_t sizeof_data, int num_dims, ...) {
 
     return arr;
 }
+
 
 void** varralloc(size_t sizeof_data, int num_dims, va_list dims_vl) {
 
@@ -168,7 +168,6 @@ size_t get_alloc_size(size_t sizeof_data, int num_dims, int* dims) {
         + data_array_size*sizeof_data
         + get_align_size(sizeof_data);
 }
-
 
 
 void set_pointers(size_t sizeof_data, void** arr, int num_dims, int* dims) {
